@@ -13,15 +13,35 @@
     <script src="data/dataset_1.js"></script>
     <script src="src/main.js"></script>
     <script>
-        console.log(data);
+        // Проверяем, загрузились ли данные
+        if (typeof data === 'undefined') {
+            console.error('❌ Ошибка: Файл данных не загрузился!');
+            console.log('🔍 Проверьте:');
+            console.log('1. Существует ли файл data/dataset_1.js');
+            console.log('2. Правильно ли указан путь к файлу');
+            console.log('3. Содержит ли файл переменную data');
+            document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffebee;">❌ Ошибка: Файл данных не найден. Проверьте путь data/dataset_1.js</div>';
+        } else {
+            console.log('✅ Данные загружены успешно');
+            console.log(data);
 
-        const report = analyzeSalesData(data, {
-            calculateRevenue: calculateSimpleRevenue,
-            calculateBonus: calculateBonusByProfit
-        });
+            try {
+                const report = analyzeSalesData(data, {
+                    calculateRevenue: calculateSimpleRevenue,
+                    calculateBonus: calculateBonusByProfit
+                });
 
-        if (console.table) console.table(report);
-        else console.log(report);
+                console.log('✅ Анализ выполнен успешно');
+                if (console.table) console.table(report);
+                else console.log(report);
+                
+                document.body.innerHTML += '<div style="color: green; padding: 20px; background: #e8f5e8;">✅ Анализ выполнен! Результаты в консоли (F12)</div>';
+                
+            } catch (error) {
+                console.error('❌ Ошибка при анализе:', error);
+                document.body.innerHTML += '<div style="color: red; padding: 20px; background: #ffebee;">❌ Ошибка: ' + error.message + '</div>';
+            }
+        }
     </script>
 </body>
 </html>

@@ -156,17 +156,14 @@ function analyzeSalesData(data, options) {
             .sort((a, b) => b.quantity - a.quantity)
             .slice(0, 10);
 
-        // Приводим числа к правильному формату перед возвратом
-        const result = {
+        return {
             seller_id: seller.id,
             name: seller.name,
             revenue: Math.round(seller.revenue * 100) / 100,  // Округляем до 2 знаков
-            profit: Math.round(seller.profit * 100) / 100,    // Округляем до 2 знаков
+            profit: +seller.profit.toFixed(2),    // Округляем до 2 знаков
             sales_count: seller.sales_count,
             top_products: topProducts,
-            bonus: Math.round(seller.bonus * 100) / 100       // Округляем до 2 знаков
+            bonus: +seller.bonus.toFixed(2)       // Округляем до 2 знаков
         };
-        
-        return result;
     });
 }

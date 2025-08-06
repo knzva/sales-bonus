@@ -120,15 +120,14 @@ function analyzeSalesData(data, options) {
             const cost = product.purchase_price * item.quantity;
             
             // Рассчитываем выручку с учетом скидки
-            const revenue = calculateRevenue(item, product);
+            const revenue = Math.round(calculateRevenue(item, product) * 100) / 100;
             
             // Рассчитываем прибыль: выручка минус себестоимость
             const itemProfit = revenue - cost;
             
             // Увеличиваем общую накопленную прибыль и выручку продавца
-            // Округляем каждое значение, чтобы избежать накопления ошибок округления
-            seller.profit = +(seller.profit + itemProfit).toFixed(2);
-            seller.revenue = +(seller.revenue + revenue).toFixed(2);
+            seller.profit += itemProfit;
+            seller.revenue += revenue;
             
             // Учет количества проданных товаров
             if (!seller.products_sold[item.sku]) {
@@ -160,11 +159,11 @@ function analyzeSalesData(data, options) {
         return {
             seller_id: seller.id,
             name: seller.name,
-            revenue: +seller.revenue.toFixed(2),  // Используем toFixed для единообразия
-            profit: +seller.profit.toFixed(2),    // Округляем до 2 знаков
+            revenue: Math.round(seller.revenue * 100) / 100,  // Используем Math.round для единообразия с прибылью и бонусом
+            profit: Math.round(seller.profit * 100) / 100,    // Округляем до 2 знаков
             sales_count: seller.sales_count,
             top_products: topProducts,
-            bonus: +seller.bonus.toFixed(2)       // Округляем до 2 знаков
+            bonus: Math.round(seller.bonus * 100) / 100       // Округляем до 2 знаков
         };
     });
 }

@@ -126,8 +126,9 @@ function analyzeSalesData(data, options) {
             const itemProfit = revenue - cost;
             
             // Увеличиваем общую накопленную прибыль и выручку продавца
-            seller.profit += itemProfit;
-            seller.revenue += revenue;
+            // Округляем каждое значение, чтобы избежать накопления ошибок округления
+            seller.profit = +(seller.profit + itemProfit).toFixed(2);
+            seller.revenue = +(seller.revenue + revenue).toFixed(2);
             
             // Учет количества проданных товаров
             if (!seller.products_sold[item.sku]) {

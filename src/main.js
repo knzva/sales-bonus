@@ -159,7 +159,7 @@ function analyzeSalesData(data, options) {
         return {
             seller_id: seller.id,
             name: seller.name,
-            revenue: Math.round(seller.revenue * 100) / 100,  // Округляем до 2 знаков
+            revenue: +seller.revenue.toFixed(2),  // Используем toFixed для единообразия
             profit: +seller.profit.toFixed(2),    // Округляем до 2 знаков
             sales_count: seller.sales_count,
             top_products: topProducts,

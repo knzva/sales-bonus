@@ -6,11 +6,11 @@
  */
 function calculateSimpleRevenue(purchase, _product) {
   // @TODO: Расчет выручки от операции
-  const baseAmount = purchase.sale_price * purchase.quantity;
-  const discountAmount = (baseAmount * (purchase.discount || 0)) / 100;
-  const revenue = baseAmount - discountAmount;
-
-  return Math.round(revenue * 100) / 100;
+    const { discount = 0, sale_price, quantity } = purchase;
+    const discountFactor = discount / 100;
+    const totalPrice = sale_price * quantity;
+    
+    return Math.round(totalPrice * (1 - discountFactor) * 100) / 100;
 }
 
 /**
